@@ -8,8 +8,16 @@
 
 import UIKit
 
+// 自用简易带 placeholder 的 UITextField
+
 class PlaceholderTextField: UITextField {
     private lazy var placeholderView = self.lazyPlaceholderView()
+
+    override var text: String? {
+        didSet {
+            placeholderView.isHidden = text!.count > 0
+        }
+    }
 
     var placeholderText: String = "" {
         didSet {
@@ -48,7 +56,11 @@ class PlaceholderTextField: UITextField {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        placeholderView.frame = CGRect(x: 10, y: 0, width: bounds.width - 10, height: bounds.height) 
+        if borderStyle == .roundedRect {
+            placeholderView.frame = CGRect(x: 7, y: 0, width: bounds.width - 7, height: bounds.height)
+        } else {
+            placeholderView.frame = bounds
+        }
     }
 }
 
